@@ -1,18 +1,20 @@
 import * as React from 'react';
-import logo from './logo.svg';
+import photograph from './assets/icons/photograph.svg';
 import './App.css';
 import GoogleButton from 'react-google-button';
+import { signInWithGoogle } from './firebase/index';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome to our Photos App.</p>
+        <img src={photograph} className="App-logo" alt="logo" />
+        <p>Welcome to my Photo App.</p>
         <p>Sign-in below to continue.</p>
         <GoogleButton
           onClick={() => {
             console.log('Google button clicked');
+            signInWithGoogle();
           }}
         />
       </header>
