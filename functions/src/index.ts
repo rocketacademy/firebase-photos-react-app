@@ -84,9 +84,22 @@ app.get('/', async (req, res) => {
   res.send(JSON.stringify(await fetchImageUrls(uid)));
 });
 
-app.post('/', (req, res) => {
-  console.log(`Received ${req.body}`);
-  res.status(200).send(`Hello ${req.body.user.name}, you posted.`);
+app.post('/', async (req, res) => {
+  console.log(`Received ${JSON.stringify(req.body)}`);
+  // This is the uid of the user who uploaded.
+  const uid: string = req.body.user.uid;
+  // Take reference to the directory of the user's image urls.
+  const imageUrlsRef = db.collection(`users/${uid}/images`);
+
+  try {
+    // Add the image url to the directory on firestore.
+    await imageUrlsRef.doc().set(req.body);
+    // Respond with 200 OK status code if all goes well.
+    res.status(200).send("User's saved image urls are successfully updated!");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send();
+  }
 });
 
 exports.images = functions.https.onRequest(app);

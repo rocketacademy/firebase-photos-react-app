@@ -17,6 +17,18 @@ firebase.initializeApp(firebaseConfig);
 
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
+// Retrieve user uid token from firebase user.
+export const authUid = () => {
+  const token = getUid();
+  return token;
+};
+
+// Retrieve user auth token from firebase user.
+export const authToken = async () => {
+  const token = await getToken();
+  return token;
+};
+
 export const signInWithGoogle = async () => {
   await firebase.auth().signInWithRedirect(googleAuthProvider);
   firebase
@@ -77,6 +89,19 @@ export const onAuthStateChange = (authHook: Function, userHook: Function) => {
       userHook({ name: '', email: '' });
     }
   });
+};
+
+// Fetches the uid of the current signed in user.
+export const getUid = () => {
+  if (firebase.auth().currentUser != null) {
+    // Returns to the user the verification token.
+    return firebase.auth().currentUser!.uid;
+  } else {
+    // User is not signed in.
+    throw Error(
+      'User needs to be signed in before uid can be issued by firebase'
+    );
+  }
 };
 
 // Fetches the most recent verification token to be used for authenticated requests.

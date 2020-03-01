@@ -70,7 +70,7 @@ function App() {
           <div className="pa2 pt4">
             <h2>Hi {user['name']}, this is your personal photo album.</h2>
             <p style={{ color: 'gray' }}>
-              Add new images by drag dropping them here.
+              Add new images by uploading them.
             </p>
           </div>
           <div className="pb5">

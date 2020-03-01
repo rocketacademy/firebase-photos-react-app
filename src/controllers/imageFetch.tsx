@@ -1,19 +1,14 @@
-import { getToken } from '../firebase';
+import { authToken } from "../firebase";
 
 export enum RequestType {
   GET = 'GET',
   POST = 'POST'
 }
 
-// Retrieve user auth token from firebase user.
-export const authToken = async () => {
-  const token = await getToken();
-  return token;
-};
+export const endpoint =
+  'https://us-central1-photos-react-app.cloudfunctions.net/images/';
 
 export const getUserImageUrls = async (userImagesHook: Function) => {
-  const endpoint =
-    'https://us-central1-photos-react-app.cloudfunctions.net/images/';
   const xhr = new XMLHttpRequest();
   xhr.addEventListener('load', () => {
     const responseText = xhr.responseText;
