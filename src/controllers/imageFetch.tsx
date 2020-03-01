@@ -1,4 +1,4 @@
-import { authToken } from "../firebase";
+import { authToken } from '../firebase';
 
 export enum RequestType {
   GET = 'GET',
@@ -9,15 +9,19 @@ export const endpoint =
   'https://us-central1-photos-react-app.cloudfunctions.net/images/';
 
 export const getUserImageUrls = async (userImagesHook: Function) => {
-  const xhr = new XMLHttpRequest();
-  xhr.addEventListener('load', () => {
-    const responseText = xhr.responseText;
-    userImagesHook(JSON.parse(responseText));
-  });
-  const token = await authToken();
-  xhr.open(RequestType.GET, endpoint);
-  xhr.setRequestHeader('Authorization', token);
-  xhr.send();
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', () => {
+      const responseText = xhr.responseText;
+      userImagesHook(JSON.parse(responseText));
+    });
+    const token = await authToken();
+    xhr.open(RequestType.GET, endpoint);
+    xhr.setRequestHeader('Authorization', token);
+    xhr.send();
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const saveUserImage = async () => {

@@ -23,6 +23,8 @@ function App() {
   const [user, setUser] = useState({ name: '', email: '' });
   // The user saved images.
   const [userImageUrls, setUserImageUrls] = useState(Array<string>());
+  // Serves as a callback to update the image view when a new image is uploaded.
+  const [uploadState, setUploadState] = useState();
 
   // Retrieves authentication information from firebase.
   // This runs similarly to componentDidMount().
@@ -32,6 +34,11 @@ function App() {
       getUserImageUrls(setUserImageUrls);
     }
   }, [authStatus]);
+
+  useEffect(() => {
+    console.log('Updating user image urls');
+    getUserImageUrls(setUserImageUrls);
+  }, [uploadState]);
 
   if (!authStatus.authenticated) {
     // If user is not signed in.
@@ -69,9 +76,7 @@ function App() {
         <header className="App-header">
           <div className="pa2 pt4">
             <h2>Hi {user['name']}, this is your personal photo album.</h2>
-            <p style={{ color: 'gray' }}>
-              Add new images by uploading them.
-            </p>
+            <p style={{ color: 'gray' }}>Add new images by uploading them.</p>
           </div>
           <div className="pb5">
             <Row>
@@ -87,7 +92,7 @@ function App() {
                 </Button>
               </span>
               <span className="pa2">
-                <UploadButton />
+                <UploadButton hook={setUploadState} />
               </span>
             </Row>
           </div>

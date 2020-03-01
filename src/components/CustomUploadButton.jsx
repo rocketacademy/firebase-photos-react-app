@@ -3,12 +3,13 @@ import Button from 'react-bootstrap/Button';
 
 import { FilePicker } from 'react-file-picker';
 
-const CustomButton = ({ callback }) => {
+const CustomButton = ({ imageHandler, hook }) => {
   return (
     <FilePicker
       extensions={['jpg', 'jpeg', 'png']}
-      onChange={fileList => {
-        callback(fileList);
+      onChange={async fileList => {
+        await imageHandler(fileList);
+        hook(null);
       }}
       onError={error => {
         console.error('Error picking files', error);

@@ -50,10 +50,14 @@ const handleImageUrl = async (imageUrl: string) => {
   xhr.send(body);
 };
 
-interface IProps {}
+interface IProps {
+  hook: Function;
+}
 
-const UploadButton = (props: IProps) => {
-  return <CustomButton callback={imageHandler} />;
+const UploadButton = ({ hook: imageUrlsHook }: IProps) => {
+  return (
+    <CustomButton imageHandler={imageHandler} hook={imageUrlsHook} />
+  );
 };
 
 export default UploadButton;
