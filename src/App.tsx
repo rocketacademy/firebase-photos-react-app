@@ -36,17 +36,27 @@ function App() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={photograph} className="App-logo" alt="logo" />
-          <div className="pa4">
-            <p>Welcome to my Photo App.</p>
-            <p>Sign-in below to continue.</p>
+          <div className="mt5">
+            <img src={photograph} className="App-logo" alt="logo" />
+            <div className="pa4">
+              <p>Welcome to my Photo App.</p>
+              <p>Sign-in below to continue.</p>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <GoogleButton
+                onClick={() => {
+                  console.log('Google button clicked');
+                  signInWithGoogle();
+                }}
+              />
+            </div>
           </div>
-          <GoogleButton
-            onClick={() => {
-              console.log('Google button clicked');
-              signInWithGoogle();
-            }}
-          />
         </header>
       </div>
     );
@@ -56,13 +66,15 @@ function App() {
       <div className="App">
         <header className="App-header">
           <div className="pa4">
-            <p>Hi {user['name']}. This is your personal photo album.</p>
-            <p>Add new images by drag dropping them here.</p>
+            <h3>Hi {user['name']}, this is your personal photo album.</h3>
+            <p style={{ color: 'gray' }}>
+              Add new images by drag dropping them here.
+            </p>
           </div>
           <div>
             <ImageWrap imageUrls={userImageUrls} />
           </div>
-          <div className='pa4'>
+          <div className="pa4">
             <span>
               <span className="pa2">
                 <Button
@@ -79,11 +91,10 @@ function App() {
                 <Button
                   variant="primary"
                   onClick={async () => {
-                    console.log('Refresh button clicked');
-                    getUserImageUrls(setUserImageUrls);
+                    console.log('Upload button clicked');
                   }}
                 >
-                  Refresh
+                  Upload
                 </Button>
               </span>
             </span>
