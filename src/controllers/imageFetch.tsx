@@ -1,4 +1,4 @@
-import { getToken } from './firebase';
+import { getToken } from '../firebase';
 
 export enum RequestType {
   GET = 'GET',

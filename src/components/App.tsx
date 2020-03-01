@@ -6,12 +6,13 @@ import {
   signOut,
   unauthenticatedState,
   onAuthStateChange
-} from './firebase';
+} from '../firebase';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ImageWrap from './ImageWrap';
-import photograph from './assets/icons/photograph.svg';
-import { getUserImageUrls } from './controller';
+import { pickImageFile } from '../controllers/imageUpload';
+import photograph from '../assets/icons/photograph.svg';
+import { getUserImageUrls } from '../controllers/imageFetch';
 import './App.css';
 
 function App() {
@@ -39,8 +40,8 @@ function App() {
           <div className="mt5">
             <img src={photograph} className="App-logo" alt="logo" />
             <div className="pa4">
-              <p>Welcome to my Photo App.</p>
-              <p>Sign-in below to continue.</p>
+              <h2>Welcome to a Photo App.</h2>
+              <p style={{ color: 'gray' }}>Sign-in below to continue.</p>
             </div>
             <div
               style={{
@@ -66,15 +67,12 @@ function App() {
       <div className="App">
         <header className="App-header">
           <div className="pa4">
-            <h3>Hi {user['name']}, this is your personal photo album.</h3>
+            <h2>Hi {user['name']}, this is your personal photo album.</h2>
             <p style={{ color: 'gray' }}>
               Add new images by drag dropping them here.
             </p>
           </div>
-          <div>
-            <ImageWrap imageUrls={userImageUrls} />
-          </div>
-          <div className="pa4">
+          <div className="pb4">
             <span>
               <span className="pa2">
                 <Button
@@ -92,12 +90,16 @@ function App() {
                   variant="primary"
                   onClick={async () => {
                     console.log('Upload button clicked');
+                    pickImageFile();
                   }}
                 >
                   Upload
                 </Button>
               </span>
             </span>
+          </div>
+          <div>
+            <ImageWrap imageUrls={userImageUrls} />
           </div>
         </header>
       </div>
