@@ -11,13 +11,13 @@ const authToken = async () => {
   return token;
 };
 
-export const getUserImageUrls = async () => {
+export const getUserImageUrls = async (userImagesHook: Function) => {
   const endpoint =
     'https://us-central1-photos-react-app.cloudfunctions.net/images/';
   const xhr = new XMLHttpRequest();
   xhr.addEventListener('load', () => {
-    // TODO: Relevant updates based on response.
-    console.log(xhr.responseText);
+    const responseText = xhr.responseText;
+    userImagesHook(JSON.parse(responseText));
   });
   const token = await authToken();
   xhr.open(RequestType.GET, endpoint);

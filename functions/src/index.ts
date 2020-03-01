@@ -63,7 +63,7 @@ const fetchImageUrls = async (uid: string): Promise<Array<string>> => {
     querySnapshot.forEach(function(doc) {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, ' => ', doc.data());
-      imageUrls.push(doc.data()['imageUrl'] as string);
+      imageUrls.push(doc.data()['imageUrl']);
     });
   });
   return imageUrls;
