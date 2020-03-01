@@ -10,10 +10,11 @@ import {
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ImageWrap from './ImageWrap';
-import { pickImageFile } from '../controllers/imageUpload';
+import UploadButton from './UploadButton';
 import photograph from '../assets/icons/photograph.svg';
 import { getUserImageUrls } from '../controllers/imageFetch';
 import './App.css';
+import Row from 'react-bootstrap/Row';
 
 function App() {
   // Default auth status of user is not signed in.
@@ -66,14 +67,14 @@ function App() {
     return (
       <div className="App">
         <header className="App-header">
-          <div className="pa4">
+          <div className="pa2 pt4">
             <h2>Hi {user['name']}, this is your personal photo album.</h2>
             <p style={{ color: 'gray' }}>
               Add new images by drag dropping them here.
             </p>
           </div>
-          <div className="pb4">
-            <span>
+          <div className="pb5">
+            <Row>
               <span className="pa2">
                 <Button
                   variant="secondary"
@@ -86,17 +87,9 @@ function App() {
                 </Button>
               </span>
               <span className="pa2">
-                <Button
-                  variant="primary"
-                  onClick={async () => {
-                    console.log('Upload button clicked');
-                    pickImageFile();
-                  }}
-                >
-                  Upload
-                </Button>
+                <UploadButton />
               </span>
-            </span>
+            </Row>
           </div>
           <div>
             <ImageWrap imageUrls={userImageUrls} />

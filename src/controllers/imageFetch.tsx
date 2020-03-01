@@ -6,7 +6,7 @@ export enum RequestType {
 }
 
 // Retrieve user auth token from firebase user.
-const authToken = async () => {
+export const authToken = async () => {
   const token = await getToken();
   return token;
 };

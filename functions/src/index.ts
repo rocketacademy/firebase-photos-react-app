@@ -69,8 +69,13 @@ const fetchImageUrls = async (uid: string): Promise<Array<string>> => {
   return imageUrls;
 };
 
+// Add required middlewares.
+
+// Handles cross-origin requests.
 app.use(corsHandler);
+// Authenticates user via token every time.
 app.use(validateFirebaseIdToken);
+
 app.get('/', async (req, res) => {
   res.status(200);
   res.setHeader('Content-Type', 'application/json');
@@ -78,7 +83,9 @@ app.get('/', async (req, res) => {
   console.log(`Retrieving images of user with uid: ${req.body.user.uid}`);
   res.send(JSON.stringify(await fetchImageUrls(uid)));
 });
+
 app.post('/', (req, res) => {
+  console.log(`Received ${req.body}`);
   res.status(200).send(`Hello ${req.body.user.name}, you posted.`);
 });
 
