@@ -9,7 +9,9 @@ const CustomButton = ({ imageHandler, hook }) => {
       extensions={['jpg', 'jpeg', 'png']}
       onChange={async fileList => {
         await imageHandler(fileList);
-        hook(null);
+        // Add a five-seconds delay before reloading the library.
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        hook(new Date().getMilliseconds());
       }}
       onError={error => {
         console.error('Error picking files', error);
