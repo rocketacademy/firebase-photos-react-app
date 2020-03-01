@@ -6,12 +6,11 @@ import {
   signOut,
   unauthenticatedState,
   onAuthStateChange,
-  getToken
 } from './firebase';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import photograph from './assets/icons/photograph.svg';
-import { getDecodedId } from './controller';
+import { getUserImageUrls } from './controller';
 import './App.css';
 
 function App() {
@@ -50,8 +49,8 @@ function App() {
       <div className="App">
         <header className="App-header">
           <div>
-            <p>Hi {user['name']}.</p>
-            <p>This is your personal photo album.</p>
+            <p>Hi {user['name']}. This is your personal photo album.</p>
+            <p>Add new images by drag dropping them here.</p>
           </div>
           <div className="pa2">
             <Button
@@ -69,8 +68,7 @@ function App() {
               variant="secondary"
               onClick={async () => {
                 console.log('Refresh button clicked');
-                const token = await getToken();
-                getDecodedId(token);
+                getUserImageUrls();
               }}
             >
               Refresh

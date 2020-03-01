@@ -4,6 +4,8 @@ import * as express from 'express';
 import * as cors from 'cors';
 
 admin.initializeApp();
+const db = admin.firestore();
+
 const app = express();
 const corsHandler = cors({ origin: true });
 
@@ -51,10 +53,33 @@ const validateFirebaseIdToken = async (
   }
 };
 
+// This retrieves the list of image urls of a user via his or her uid.
+const fetchImageUrls = async (uid: string): Promise<Array<string>> => {
+  // This array will contain the resultant user image urls.
+  const imageUrls = new Array<string>();
+  const imageUrlsRef = db.collection(`users/${uid}/images`);
+  // Add each document into the resultant array.
+  await imageUrlsRef.get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, ' => ', doc.data());
+      imageUrls.push(doc.data()['imageUrl'] as string);
+    });
+  });
+  return imageUrls;
+};
+
 app.use(corsHandler);
 app.use(validateFirebaseIdToken);
-app.get('/', (req, res) => {
-  res.status(200).send(`Hello ${req.body.user.name}`);
+app.get('/', async (req, res) => {
+  res.status(200);
+  res.setHeader('Content-Type', 'application/json');
+  const uid: string = req.body.user.uid;
+  console.log(`Retrieving images of user with uid: ${req.body.user.uid}`);
+  res.send(JSON.stringify(await fetchImageUrls(uid)));
+});
+app.post('/', (req, res) => {
+  res.status(200).send(`Hello ${req.body.user.name}, you posted.`);
 });
 
 exports.images = functions.https.onRequest(app);
