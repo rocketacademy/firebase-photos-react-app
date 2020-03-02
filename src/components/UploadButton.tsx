@@ -19,8 +19,10 @@ const imageHandler = async (imageFile: File) => {
 const handleImageUpload = async (imageFile: File) => {
   // Create a root reference to firebase storage.
   const storageRef = firebase.storage().ref();
+  // Get current time in ms.
+  const time: number = new Date().getTime();
   // Concatenate file name with time in ms to enable uploads of same image names.
-  const imageName = `${imageFile.name}-${new Date().getUTCMilliseconds}`;
+  const imageName = `${time}-${imageFile.name}`;
   // Create a reference to the image file name.
   var imageRef = storageRef.child(imageName);
   // Upload the file to fire storage.
