@@ -19,16 +19,14 @@ const imageHandler = async (imageFile: File) => {
 const handleImageUpload = async (imageFile: File) => {
   // Create a root reference to firebase storage.
   const storageRef = firebase.storage().ref();
+  // Concatenate file name with time in ms to enable uploads of same image names.
+  const imageName = `${imageFile.name}-${new Date().getUTCMilliseconds}`;
   // Create a reference to the image file name.
-  var imageRef = storageRef.child(imageFile.name);
+  var imageRef = storageRef.child(imageName);
   // Upload the file to fire storage.
   const url = await imageRef.put(imageFile).then(async function(snapshot) {
     const imageUrl = await snapshot.ref.getDownloadURL();
-    console.log(
-      `Uploaded ${imageFile.name}!`,
-      'Image is accessible at',
-      imageUrl
-    );
+    console.log(`Uploaded ${imageName}!`, 'Image is accessible at', imageUrl);
     return imageUrl as string;
   });
   return url;
@@ -55,9 +53,7 @@ interface IProps {
 }
 
 const UploadButton = ({ hook: imageUrlsHook }: IProps) => {
-  return (
-    <CustomButton imageHandler={imageHandler} hook={imageUrlsHook} />
-  );
+  return <CustomButton imageHandler={imageHandler} hook={imageUrlsHook} />;
 };
 
 export default UploadButton;
